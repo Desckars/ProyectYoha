@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8" />
+    <title>Música</title>
+    <link rel="stylesheet" type="text/css" href="estilo.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300..700&family=Waiting+for+the+Sunrise&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <a href="index.html" class="boton-inicio">Inicio</a>
+    <div class="container">
+        <div class="derecha1">
+            <h1>Música</h1>
+        </div>
+        <div class="derecha1">
+            <p>Fusce pellentesque quis lorem ut congue. Mauris tellus eros, maximus eu augue ac, sagittis mollis elit.
+                Fusce vitae est eget odio commodo tincidunt. Etiam blandit erat a accumsan tempus. Morbi luctus tempus
+                ultrices. Vestibulum egestas nunc dui, eu ornare sem porta vitae. Mauris eget aliquet arcu, sit amet
+                sollicitudin tellus. Vivamus malesuada nunc placerat volutpat facilisis. Vestibulum volutpat nisi lacus,
+                sed hendrerit augue ultricies eget.</p>
+        </div>
+        <div class="centro1">
+            <p>Fusce pellentesque quis lorem ut congue. Mauris tellus eros, maximus eu augue ac, sagittis mollis elit.
+                Fusce vitae est eget odio commodo tincidunt. Etiam blandit erat a accumsan tempus. Morbi luctus tempus
+                ultrices. Vestibulum egestas nunc dui, eu ornare sem porta vitae. Mauris eget aliquet arcu, sit amet
+                sollicitudin tellus. Vivamus malesuada nunc placerat volutpat facilisis. Vestibulum volutpat nisi lacus,
+                sed hendrerit augue ultricies eget.</p>
+        </div>
+        <div class="cubo">
+            <div class="image-container" id="imageContainer"
+                style="background-image: url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTIl9V0TdTFmu-CMt6fNCzEgdL9rCze7drNRg&s');">
+            </div>
+
+            <audio id="audioPlayer" src="mp/BE.mp3"></audio>
+
+
+            <input type="range" id="progressBar" class="progress-bar" value="0" max="100" />
+
+
+            <div class="controls">
+                <button class="control-button prev" onclick="prevTrack()">⏮️</button>
+                <button class="control-button play-pause" id="playPauseBtn">▶️</button>
+                <button class="control-button next" onclick="nextTrack()">⏭️</button>
+            </div>
+        </div>
+
+        <script>
+            const songs = [
+                "mp/BE.mp3",
+                "mp/flylove.mp3",
+                "mp/labour.mp3",
+                "mp/messy.mp3",
+            ];
+
+            let currentTrack = 0;
+            const audio = document.getElementById("audioPlayer");
+            const playPauseBtn = document.getElementById("playPauseBtn");
+            const progressBar = document.getElementById("progressBar");
+
+            let isPlaying = false;
+
+            function loadTrack(index) {
+                audio.src = songs[index];
+                audio.load();
+                progressBar.value = 0;
+                isPlaying = false;
+                playPauseBtn.textContent = "▶️";
+            }
+
+            function playPause() {
+                if (isPlaying) {
+                    audio.pause();
+                    playPauseBtn.textContent = "▶️";
+                } else {
+                    audio.play();
+                    playPauseBtn.textContent = "⏸️";
+                }
+                isPlaying = !isPlaying;
+            }
+
+            function nextTrack() {
+                currentTrack = (currentTrack + 1) % songs.length;
+                loadTrack(currentTrack);
+                audio.play();
+                playPauseBtn.textContent = "⏸️";
+                isPlaying = true;
+            }
+
+            function prevTrack() {
+                currentTrack = (currentTrack - 1 + songs.length) % songs.length;
+                loadTrack(currentTrack);
+                audio.play();
+                playPauseBtn.textContent = "⏸️";
+                isPlaying = true;
+            }
+
+            playPauseBtn.addEventListener("click", playPause);
+
+            audio.addEventListener("timeupdate", () => {
+                progressBar.value = (audio.currentTime / audio.duration) * 100;
+            });
+
+            progressBar.addEventListener("input", () => {
+                audio.currentTime = (progressBar.value / 100) * audio.duration;
+            });
+
+            audio.addEventListener("ended", nextTrack);
+
+            loadTrack(currentTrack);
+        </script>
+
+    </div>
+</body>
+
+</html>
