@@ -13,6 +13,8 @@ body {
     gap: 50px;
     grid-template-columns: 1fr 1fr 1fr 1fr;
     padding: 10px;
+    /* Enzo estuvo aqui */
+    position: relative;
 
 }
 
@@ -111,11 +113,28 @@ p {
     color: white;
 
 }
-
 .derecha1 {
     grid-column-start: 1;
     grid-column-end: 2;
 }
+
+/* Enzo estubo aca */
+.derecha1Insomnio {
+  position: absolute;
+  display: none;
+  width: 40%;
+  padding: 20px;
+  background-color: #20323d;
+  color: white;
+  border-radius: 8px;
+  z-index: 10;
+  top: 80px;
+  left: 50%;
+  transform: translateX(10%);
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
+  border: 1px solid #4a6a80;
+}
+
 
 .derecha2 {
     grid-column-start: 3;
@@ -133,10 +152,25 @@ p {
     padding: 30px 20px;
     color: white;
 }
-
 .izquierda1 {
     grid-column-start: 4;
     grid-column-end: 5;
+}
+/* Enzo estubo aca */
+.izquierda1Insomnio {
+    position: absolute;
+    display: none;
+    width: 40%;
+    padding: 20px;
+    background-color: #20323d;
+    color: white;
+    border-radius: 8px;
+    z-index: 10;
+    top: 140px;
+    left: 0;
+    transform: translateX(0%);
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
+    border: 1px solid #4a6a80;
 }
 
 .centro1 {
@@ -193,4 +227,28 @@ p {
     gap: 20px;
     grid-column-start: 4;
     grid-column-end: 5;
+}
+
+/* Enzo estuvo aca */
+
+.hover-insomnio {
+    background-color: transparent;
+    color: black;
+    padding: 0;
+    border: none;
+    cursor: pointer;
+    font-size: 50px;
+    font-family: "Waiting for the Sunrise";
+}
+/* Mostrar ambos textos al hacer hover en el botón */
+.hover-insomnio:hover ~ .derecha1Insomnio,
+.hover-insomnio:hover ~ .izquierda1Insomnio {
+  display: block;
+}
+.tabla-insomnio {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    margin-top: 20px;
 }

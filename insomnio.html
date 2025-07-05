@@ -16,9 +16,9 @@
     <a href="index.html" class="boton-inicio">Inicio</a>
     <div class="container2">
         <div class="arriba">
-            <h1>Insomnio</h1>
-        </div>
-        <div class="derecha1">
+            <button class="hover-insomnio"><h1>Insomnio</h1></button>                      
+        
+        <div class="derecha1Insomnio">
             <p>El insomnio es un trastorno frecuente del sueño. En el insomnio, tiene dificultades para conciliar el
                 sueño, para mantenerse dormido o para lograr un sueño de buena calidad. Esto ocurre incluso cuando tiene
                 el tiempo y el entorno correcto para dormir bien. El insomnio puede interferir con sus actividades
@@ -31,8 +31,7 @@
                 dura más de 3 meses y no puede ser explicado completamente por otro problema de salud.
             </p>
         </div>
-        <img class="img2" src="img/img1.jpeg">
-        <div class="izquierda1">
+        <div class="izquierda1Insomnio">
             <p>El insomnio crónico se define como la dificultad para conciliar el sueño o permanecer dormido al menos
                 tres noches por semana durante un período de tres meses o más.
                 <br>
@@ -45,8 +44,97 @@
                 calidad del sueño
             </p>
         </div>
+        </div>
+         <!-- Aca ira tema select para el script del grafico-->
+        
+        <div class="tabla-insomnio">
+            <label for="modo">¿Cómo dormí?</label>
+            <select id="modo">
+            <option value="Sola">Sola</option>
+            <option value="Acompañada">Acompañada</option>
+            </select>
+        </div>
+        <canvas id="graficoCalidadSueño" width="700" height="400"></canvas>
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+            <script>
+            const select = document.getElementById('modo');
+            const ctx = document.getElementById('graficoCalidadSueño').getContext('2d');
+
+            const nombresDias = ['Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado', 'Domingo'];
+            const dias = Array.from({ length: 28 }, (_, i) => nombresDias[i % 7]);
+
+            // Datos ficticios de calidad por modo
+            const datosCalidad = {
+                sola: ['Mala', 'Buena', 'Neutra', 'Buena', 'Mala', 'Buena', 'Neutra', 'Buena', 'Mala', 'Mala', 'Buena', 'Neutra', 'Buena', 'Buena', 'Neutra', 'Mala', 'Mala', 'Buena', 'Neutra', 'Neutra', 'Buena', 'Mala', 'Buena', 'Neutra', 'Buena', 'Neutra', 'Mala', 'Buena'],
+                acompanada: ['Buena', 'Buena', 'Buena', 'Neutra', 'Buena', 'Buena', 'Buena', 'Neutra', 'Buena', 'Neutra', 'Buena', 'Buena', 'Buena', 'Neutra', 'Buena', 'Buena', 'Neutra', 'Buena', 'Buena', 'Buena', 'Buena', 'Buena', 'Buena', 'Neutra', 'Buena', 'Neutra', 'Buena', 'Buena']
+            };
+
+            const colorPorCalidad = {
+                Mala: "#e74c3c",
+                Buena: "#2ecc71",
+                Neutra: "#95a5a6"
+            };
+
+            let grafico = null;
+
+            function renderizarGrafico(modo) {
+                const calidad = datosCalidad[modo];
+                const colores = calidad.map(c => colorPorCalidad[c]);
+
+                if (grafico) grafico.destroy(); // Destruir gráfico anterior si existe
+
+                grafico = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: dias,
+                    datasets: [{
+                    label: 'Calidad de sueño',
+                    data: new Array(dias.length).fill(1), // Solo para mostrar barras
+                    backgroundColor: colores
+                    }]
+                },
+                options: {
+                    indexAxis: 'y',
+                    plugins: {
+                    legend: { display: false },
+                    tooltip: {
+                        callbacks: {
+                        label: function(context) {
+                            const index = context.dataIndex;
+                            return ` ${dias[index]}: ${calidad[index]}`;
+                        }
+                        }
+                    }
+                    },
+                    scales: {
+                    x: {
+                        display: false // No mostrar eje X porque no tiene valor
+                    },
+                    y: {
+                        ticks: { color: 'white' }
+                    }
+                    }
+                }
+                });
+            }
+
+            select.addEventListener('change', () => {
+                renderizarGrafico(select.value);
+            });
+
+            // Inicializar con el primer valor
+            renderizarGrafico(select.value);
+            </script>
+
+
+
+        <!--  Dejo comenetado las imagenes para ver la tabla y los graficos
+        <img class="img2" src="img/img1.jpeg">
+        
         <img class="mitad1" src="img/2.png">
         <img class="mitad2" src="img/3.png">
+        > -->
+        <!-- <div class="abajo"> -->
     </div>
 </body>
 
